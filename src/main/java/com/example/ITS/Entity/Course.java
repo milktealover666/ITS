@@ -1,9 +1,10 @@
-package com.example.ITS;
+package com.example.ITS.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Course {
@@ -20,7 +21,8 @@ public class Course {
     private String description;
 
     // 分类
-    private String category;
+    @ManyToOne
+    private CourseCategory category;
 
     // getters and setters
 
@@ -48,11 +50,11 @@ public class Course {
         this.description = description;
     }
 
-    public String getCategory() {
+    public CourseCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(CourseCategory category) {
         this.category = category;
     }
 }

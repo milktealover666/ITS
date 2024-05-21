@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>添加课程和课程分类</title>
+</head>
+<body>
+    <h1>添加课程</h1>
+    <form action="/courses/create" method="post" th:object="${course}">
+        <label for="title">标题:</label><br>
+        <input type="text" id="title" name="title" th:field="*{title}"><br>
+        <label for="description">描述:</label><br>
+        <input type="text" id="description" name="description" th:field="*{description}"><br>
+        <label for="category">分类:</label><br>
+        <select th:field="*{category}">
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+        <input type="submit" value="提交">
+    </form>
+
+    <h1>添加课程分类</h1>
+    <form action="#" th:action="@{/courses/categories/create}" method="post">
+        <label for="name">分类名称:</label><br>
+        <input type="text" id="name" name="name" th:field="*{name}"><br>
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>
