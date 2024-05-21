@@ -19,7 +19,7 @@ public class ViewController {
     public String viewCourses(Model model) {
         model.addAttribute("course", new Course());
         Iterable<CourseCategory> categories = courseService.getAllCategories();
-        model.addAttribute("name", new String());
+        model.addAttribute("categories", categories);
         return "courses";
     }
 }
