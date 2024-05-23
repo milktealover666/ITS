@@ -27,7 +27,7 @@ public class CourseCategory {
         return name;
     }
 
-    public void setName(String title) {
-        this.name = title;
+    public void setName(String name) {
+        this.name = name;
     }
 }
