@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>更新课程分类</title>
+</head>
+<body>
+    <h2>更新课程分类</h2>
+    <form action="/courseCategory/update" method="post" th:object="${courseCategory}">
+        <input type="hidden" th:field="*{id}">
+        <label for="name">分类名称</label><br>
+        <input type="text" id="name" name="name" th:field="*{name}"><br>
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>
