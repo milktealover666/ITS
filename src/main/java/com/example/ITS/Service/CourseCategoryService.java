@@ -1,5 +1,8 @@
 package com.example.ITS.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.ITS.Entity.CourseCategory;
@@ -34,5 +37,22 @@ public class CourseCategoryService {
         return courseCategoryRepository.findAll();
     }
 
+    // 根据名称查询课程分类
+    public List<CourseCategory> searchCategories(String keyword) {
+    List<CourseCategory> categories = new ArrayList<>();
+    try {
+        // 尝试将关键词转换为长整型数字
+        Long id = Long.parseLong(keyword);
+        // 如果转换成功，那么按照ID进行查询
+        CourseCategory category = courseCategoryRepository.findById(id).orElse(null);
+        if (category != null) {
+            categories.add(category);
+        }
+    } catch (NumberFormatException e) {
+        // 如果转换失败，那么按照名称进行查询
+        categories = courseCategoryRepository.findByNameContaining(keyword);
+    }
+    return categories;
+}
 
 }

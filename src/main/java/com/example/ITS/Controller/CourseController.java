@@ -76,22 +76,21 @@ public class CourseController {
         return "redirect:/courses";
     }
 
-    // 根据id查找课程
+    // 根据id、课程名、分类查找课程
     @GetMapping("/courses/search")
-    public String searchCourse(@RequestParam("id") Long id, Model model) {
-        Course searchedCourse = courseService.getCourseById(id);
-        model.addAttribute("searchedCourse", searchedCourse);
-        Iterable<CourseCategory> categories = courseCategoryService.getAllCategories();
-        model.addAttribute("categories", categories);
-        model.addAttribute("course", new Course());
+    public String searchCourse(@RequestParam("keyword") String keyword, Model model) {
+        List<Course> searchedCourses = courseService.searchCourses(keyword);
+        model.addAttribute("searchedCourses", searchedCourses);
 
-        // 获取所有课程
+        // 添加所有课程到模型中
         Iterable<Course> iterableCourses = courseService.findAllCourses();
         List<Course> courses = new ArrayList<>();
         iterableCourses.forEach(courses::add);
-
-        // 将所有课程添加到模型中
         model.addAttribute("courses", courses);
+
+        model.addAttribute("course", new Course());
+        Iterable<CourseCategory> categories = courseCategoryService.getAllCategories();
+        model.addAttribute("categories", categories);
         return "courses";
     }
 
