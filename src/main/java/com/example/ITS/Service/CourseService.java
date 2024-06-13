@@ -45,5 +45,24 @@ public class CourseService {
         return courseRepository.findById(id).orElse(null);
     }
 
+    // 根据关键词查询课程
+    public List<Course> searchCourses(String keyword) {
+        List<Course> courses = new ArrayList<>();
+        try {
+            // 尝试将关键词转换为长整型数字
+            Long id = Long.parseLong(keyword);
+            // 如果转换成功，那么按照ID进行查询
+            Course course = courseRepository.findById(id).orElse(null);
+            if (course != null) {
+                courses.add(course);
+            }
+        } catch (NumberFormatException e) {
+            // 如果转换失败，那么按照字符串进行查询
+            courses = courseRepository.search(keyword);
+        }
+        return courses;
+    }
+    
+    
 
 }

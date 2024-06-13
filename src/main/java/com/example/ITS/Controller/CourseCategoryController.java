@@ -3,6 +3,8 @@ package com.example.ITS.Controller;
 import com.example.ITS.Entity.CourseCategory;
 import com.example.ITS.Service.CourseCategoryService;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +25,11 @@ public class CourseCategoryController {
         return "courseCategory";
     }
 
-    // 根据id查询课程分类
+    // 根据id、名称查找课程分类
     @GetMapping("/courseCategory/search")
-    public String searchCategory(@RequestParam("id") Long id, Model model) {
-        CourseCategory searchedCourseCategory =courseCategoryService.getCategory(id);
-        model.addAttribute("searchedCourseCategory", searchedCourseCategory);
+    public String searchCategory(@RequestParam("keyword") String keyword, Model model) {
+        List<CourseCategory> searchedCourseCategories = courseCategoryService.searchCategories(keyword);
+        model.addAttribute("searchedCourseCategories", searchedCourseCategories);
         Iterable<CourseCategory> categories = courseCategoryService.getAllCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("courseCategory", new CourseCategory());
