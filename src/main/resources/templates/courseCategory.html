@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>课程分类管理</title>
+</head>
+<body>
+    <h2>所有课程分类</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>名称</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.name}"></td>
+            <td>
+                <a th:href="@{/courseCategory/update(id=${category.id})}">修改</a>
+            </td>
+        </tr>
+    </table>
+    <h2>添加课程分类</h2>
+    <form action="/courseCategory/create" method="post" th:object="${courseCategory}">
+        <label for="name">分类名称</label><br>
+        <input type="text" id="name" name="name" th:field="*{name}"><br>
+        <input type="submit" value="提交">
+    </form>
+    <h2>查询课程分类</h2>
+    <form action="/courseCategory/search" method="get">
+        <label for="id">分类ID:</label><br>
+        <input type="text" id="id" name="id"><br>
+        <input type="submit" value="查询">
+    </form>
+    <!-- 查询结果显示区域 -->
+    <div th:if="${searchedCourseCategory != null}">
+        <h2>查询结果</h2>
+        <p th:text="'ID: ' + ${searchedCourseCategory.id}"></p>
+        <p th:text="'名称: ' + ${searchedCourseCategory.name}"></p>
+        <p><a th:href="@{/courseCategory/update(id=${searchedCourseCategory.id})}">修改</a></p>
+    </div>
+    <h2>删除课程分类</h2>
+    <form action="/courseCategory/delete" method="post">
+        <label for="id">分类ID:</label><br>
+        <input type="text" id="id" name="id"><br>
+        <input type="submit" value="删除">
+    </form>
+</body>
+</html>

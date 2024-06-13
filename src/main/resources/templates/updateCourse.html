@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>更新课程</title>
+</head>
+<body>
+<h2>更新课程</h2>
+<form action="/courses/update" method="post" th:object="${course}">
+    <input type="hidden" th:field="*{id}" />
+    <label for="title">标题:</label><br>
+    <input type="text" id="title" name="title" th:field="*{title}" required><br>
+    <label for="description">描述:</label><br>
+    <textarea id="description" name="description" th:field="*{description}" required></textarea><br>
+    <select th:field="*{category}">
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+    </select>
+    <input type="submit" value="保存">
+</form>
+</body>
+</html>
