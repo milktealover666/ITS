@@ -37,12 +37,13 @@ public class TeacherController {
 
     // 修改个人信息
     @GetMapping("/update_self_page")
-    public String update_self_page(HttpSession session, Model model){
+    public String update_self_page(javax.servlet.http.HttpSession session, Model model){
         Long id = Long.parseLong(((User)session.getAttribute("user")).getUsername());
         Teacher teacher = teacherService.findTeacherById(id);
         model.addAttribute("teacher",teacher);
         return "teacher/updateSelfInfoPage";
     }
+
 
     @PostMapping("/teacher/update_selfInfo")
     public String updateSelfInfo(Teacher teacher,RedirectAttributes ra){
