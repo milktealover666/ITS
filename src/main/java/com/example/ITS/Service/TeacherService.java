@@ -1,21 +1,40 @@
 package com.example.ITS.Service;
 
-import com.example.ITS.Entity.Course;
+import com.example.ITS.Entity.CourseResource;
 import com.example.ITS.Entity.Student;
 import com.example.ITS.Entity.Teacher;
+import com.example.ITS.Repository.CourseResourceRepository;
+import com.example.ITS.Repository.TeacherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-public interface TeacherService {
+@Service
+public class TeacherService {
 
-    public int addCourse(Course course);
+    @Autowired
+    private TeacherRepository teacherRepository;
+    private CourseResourceRepository courseResourceRepository;
 
-    public Teacher findTeacherById(String id);
+    public CourseResource addCourseResource(CourseResource courseResource) {
+        return courseResourceRepository.save(courseResource);
+    }
 
-    public int updateSelfInfo(Teacher teacher);
+    public Teacher findTeacherById(long id) {
+        return teacherRepository.findById(id).orElse(null);
+    }
 
-    public List<Map<String,Object>> findAllCourseByTeacherId(String id);
+    public Teacher updateSelfInfo(Teacher teacher) {
+        return teacherRepository.save(teacher);
+    }
 
-    public List<Student> findStudents(String courseId, String teacherId);
+    public List<Map<String,Object>> findAllCourseResourcesByTeacherId(long id) {
+        return teacherRepository.findAllCourseResourcesByTeacherId(id);
+    }
+
+    public List<Student> findStudents(long courseId, long teacherId) {
+        return teacherRepository.findStudents(courseId, teacherId);
+    }
 }

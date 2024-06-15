@@ -5,30 +5,27 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
 import lombok.Data;
-import java.util.List;
 
 @Entity
 @Data
-public class Course {
+public class CourseResource {
 
-    // id
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    // 标题
-    private String title;
-
-    // 描述
-    private String description;
-
-    // 分类
     @ManyToOne
-    private CourseCategory category;
+    @JoinColumn(name="courseId", nullable=false)
+    private Course course;
 
-    // 课程资源
-    @OneToMany(mappedBy = "course")
-    private List<CourseResource> resources;
+    @ManyToOne
+    @JoinColumn(name="teacherId", nullable=false)
+    private Teacher teacher;
+
+    private String resourceName;
+
+    private String resourceUrl;
+
 }

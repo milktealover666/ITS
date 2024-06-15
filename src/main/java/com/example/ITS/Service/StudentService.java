@@ -1,21 +1,54 @@
 package com.example.ITS.Service;
 
+import com.example.ITS.Entity.CourseResource;
 import com.example.ITS.Entity.Student;
+import com.example.ITS.Repository.CourseResourceRepository;
+import com.example.ITS.Repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
-public interface StudentService {
+@Service
+public class StudentService {
 
-    public Student findStudentById(String id);
+    @Autowired
+    private StudentRepository studentRepository;
+    private CourseResourceRepository courseResourceRepository;
 
-    public int updateSelfInfo(Student student);
+    public Student findStudentById(long id) {
+        return studentRepository.findById(id).orElse(null);
+    }
 
-    List<Map<String,Object>> findAllCourse();
+    public Student updateSelfInfo(Student student) {
+        return studentRepository.save(student);
+    }
 
-    List<Map<String,Object>> findChosenCourse(String studentId);
+    public List<CourseResource> findAllCourseResources() {
+        return studentRepository.findAllCourseResources();
+    }
 
-    int chooseCourse(String courseId,String teacherId,String studentId);
+    public List<CourseResource> findChosenCourseResource(long studentId) {
+        return studentRepository.findChosenCourseResource(studentId);
+    }    
 
-    int updateCourseNum(String courseId);
+    public boolean chooseCourseResource(long resourceId, long studentId) {
+        try {
+            Student student = studentRepository.findById(studentId).orElse(null);
+            CourseResource resource = courseResourceRepository.findById(resourceId).orElse(null);
+
+            if (student != null && resource != null) {
+                student.getCourseResources().add(resource);
+                studentRepository.save(student);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            // handle exception
+            return false;
+        }
+    }
+
+
 }

@@ -2,7 +2,6 @@ package com.example.ITS.Controller;
 
 import com.example.ITS.Entity.User;
 import com.example.ITS.Service.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

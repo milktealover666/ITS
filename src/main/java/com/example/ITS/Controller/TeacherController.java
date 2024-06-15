@@ -1,6 +1,6 @@
 package com.example.ITS.Controller;
 
-import com.example.ITS.Entity.Course;
+import com.example.ITS.Entity.CourseResource;
 import com.example.ITS.Entity.Student;
 import com.example.ITS.Entity.Teacher;
 import com.example.ITS.Entity.User;
@@ -22,24 +22,23 @@ public class TeacherController {
     @Autowired
     TeacherService teacherService;
 
-    // 添加课程信息
-    @GetMapping("/add_course_page")
-    public String add_course_page(){
-        return "teacher/addCoursePage";
+    // 添加课程资源信息
+    @GetMapping("/add_course_resource_page")
+    public String add_course_resource_page(){
+        return "teacher/addCourseResourcePage";
     }
 
-    @PostMapping("/teacher/add_course")
-    public String addCourse(Course course, RedirectAttributes ra){
-        course.setNum(0);
-        teacherService.addCourse(course);
-        ra.addAttribute("message","添加课程成功");
-        return "redirect:/add_course_page";
+    @PostMapping("/teacher/add_course_resource")
+    public String addCourseResource(CourseResource courseResource, RedirectAttributes ra){
+        teacherService.addCourseResource(courseResource);
+        ra.addAttribute("message","添加课程资源成功");
+        return "redirect:/add_course_resource_page";
     }
 
     // 修改个人信息
     @GetMapping("/update_self_page")
     public String update_self_page(HttpSession session, Model model){
-        String id = ((User)session.getAttribute("user")).getUsername();
+        Long id = Long.parseLong(((User)session.getAttribute("user")).getUsername());
         Teacher teacher = teacherService.findTeacherById(id);
         model.addAttribute("teacher",teacher);
         return "teacher/updateSelfInfoPage";
@@ -55,8 +54,8 @@ public class TeacherController {
     //浏览选课学生信息
     @GetMapping("/course_info_page")
     public String course_info_page(HttpSession session, Model model){
-        String id = ((User)session.getAttribute("user")).getUsername();
-        List<Map<String,Object>> courses = teacherService.findAllCourseByTeacherId(id);
+        Long id = Long.parseLong(((User)session.getAttribute("user")).getUsername());
+        List<Map<String,Object>> courses = teacherService.findAllCourseResourcesByTeacherId(id);
         if (courses.size() == 0){
             model.addAttribute("message","暂无课程信息");
             return "main";
@@ -66,8 +65,8 @@ public class TeacherController {
     }
 
     @GetMapping("/findStudents")
-    public String findStudents(@RequestParam("courseId") String courseId,HttpSession session,Model model){
-        String teacherId = ((User)session.getAttribute("user")).getUsername();
+    public String findStudents(@RequestParam("courseId") long courseId,HttpSession session,Model model){
+        Long teacherId = Long.parseLong(((User)session.getAttribute("user")).getUsername());
         List<Student> students = teacherService.findStudents(courseId,teacherId);
         if (students.size() == 0){
             model.addAttribute("message","暂无学生选本文课");

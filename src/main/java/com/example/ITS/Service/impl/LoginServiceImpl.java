@@ -7,9 +7,6 @@ import com.example.ITS.Service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class LoginServiceImpl implements LoginService {
     @Autowired
