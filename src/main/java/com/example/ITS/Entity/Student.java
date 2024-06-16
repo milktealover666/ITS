@@ -1,7 +1,10 @@
 package com.example.ITS.Entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -14,11 +17,14 @@ import java.util.List;
 public class Student {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String sex;
-    private String classname;
     private String major;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToMany
     @JoinTable(

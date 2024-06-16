@@ -10,12 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+
+import java.security.Principal;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 public class StudentController {
@@ -23,6 +27,24 @@ public class StudentController {
     StudentService studentService;
     @Autowired
     TeacherService teacherService;
+
+    private static final Logger LOGGER = Logger.getLogger(StudentController.class.getName());
+
+    @GetMapping("/studentinfo")
+    public String showStudentInfo(Model model, Principal principal) {
+        if (principal != null) {
+            // 获取当前登录的学生信息
+            Student currentStudent = studentService.findStudentById(Long.parseLong(principal.getName()));
+            model.addAttribute("student", currentStudent);
+        } else {
+            // 处理未登录的情况，可能是重定向到登录页面
+            LOGGER.warning("未登录的用户尝试访问学生信息页面");
+            return "redirect:/login";
+        }
+        return "studentinfo";  // 返回视图名称
+    }
+
+
     // 修改个人信息
     @GetMapping("/update_stu_page")
     public String update_self_page(HttpSession session, Model model){
@@ -33,12 +55,11 @@ public class StudentController {
     }
 
     @PostMapping("/student/update_selfInfo")
-    public String updateSelfInfo(Student student, RedirectAttributes ra){
+    public String updateSelfInfo(@ModelAttribute Student student, RedirectAttributes ra){
         studentService.updateSelfInfo(student);
-        ra.addAttribute("message","修改成功");
+        ra.addFlashAttribute("message","修改成功");
         return "redirect:/update_stu_page";
     }
-
 
     //浏览选课学生信息
     @GetMapping("/all_course_info_page")

@@ -14,6 +14,7 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
     private CourseResourceRepository courseResourceRepository;
 
     public Student findStudentById(long id) {

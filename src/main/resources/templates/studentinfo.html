@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Info</title>
+</head>
+<body>
+<h2>我的信息</h2>
+<div th:object="${student}">
+    <p>Id: <span th:text="*{id}"></span></p>
+    <p>Name: <span th:text="*{name}"></span></p>
+    <p>Major: <span th:text="*{major}"></span></p>
+</div>
+<a href="/updateinfo">更新信息</a>
+</body>
+</html>

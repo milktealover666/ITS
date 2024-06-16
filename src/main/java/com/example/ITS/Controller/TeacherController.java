@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +24,14 @@ import java.util.Map;
 public class TeacherController {
     @Autowired
     TeacherService teacherService;
+
+    @GetMapping("/teacherinfo")
+    public String showTeacherInfo(Model model,Principal principal) {
+        // 获取当前登录的教师信息
+        Teacher currentTeacher = teacherService.findTeacherById(Long.parseLong(principal.getName()));
+        model.addAttribute("teacher", currentTeacher);
+        return "teacherinfo";  // 返回视图名称
+    }
 
     // 添加课程资源信息
     @GetMapping("/add_course_resource_page")
@@ -44,13 +55,13 @@ public class TeacherController {
         return "teacher/updateSelfInfoPage";
     }
 
-
     @PostMapping("/teacher/update_selfInfo")
-    public String updateSelfInfo(Teacher teacher,RedirectAttributes ra){
+    public String updateSelfInfo(@ModelAttribute Teacher teacher, RedirectAttributes ra){
         teacherService.updateSelfInfo(teacher);
-        ra.addAttribute("message","修改成功");
+        ra.addFlashAttribute("message","修改成功");
         return "redirect:/update_self_page";
     }
+
 
     //浏览选课学生信息
     @GetMapping("/course_info_page")

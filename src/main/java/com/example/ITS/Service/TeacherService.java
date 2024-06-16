@@ -16,6 +16,7 @@ public class TeacherService {
 
     @Autowired
     private TeacherRepository teacherRepository;
+    @Autowired
     private CourseResourceRepository courseResourceRepository;
 
     public CourseResource addCourseResource(CourseResource courseResource) {
