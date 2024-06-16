@@ -5,6 +5,7 @@ import com.example.ITS.Entity.Student;
 import com.example.ITS.Entity.Teacher;
 import com.example.ITS.Entity.User;
 import com.example.ITS.Service.TeacherService;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +28,6 @@ public class TeacherController {
 
     @GetMapping("/teacherinfo")
     public String showTeacherInfo(Model model,Principal principal) {
-        // 获取当前登录的教师信息
         Teacher currentTeacher = teacherService.findTeacherById(Long.parseLong(principal.getName()));
         model.addAttribute("teacher", currentTeacher);
         return "teacherinfo";  // 返回视图名称
