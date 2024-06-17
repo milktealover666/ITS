@@ -1,7 +1,13 @@
 package com.example.ITS.Controller;
 
+import com.example.ITS.Entity.CourseResource;
 import com.example.ITS.Entity.User;
 import com.example.ITS.Service.UserService;
+
+import jakarta.servlet.http.HttpSession;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,19 +29,24 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model) {
+    public String login(@RequestParam String username, @RequestParam String password, Model model,HttpSession session) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
 
         User foundUser = userService.login(user);
         if (foundUser != null) {
+            session.setAttribute("user", foundUser);
             model.addAttribute("user", foundUser);
             // 根据用户类型跳转到对应的页面
             if ("student".equals(foundUser.getType())) {
-                return "redirect:/studentinfo";
+                List<CourseResource> courseResources = foundUser.getStudent().getCourseResources();
+                model.addAttribute("courseResources", courseResources);
+                return "studentinfo";
             } else if ("teacher".equals(foundUser.getType())) {
-                return "redirect:/teacherinfo";
+                List<CourseResource> courseResources = foundUser.getTeacher().getCourseResources();
+                model.addAttribute("courseResources", courseResources);
+                return "teacherinfo";
             }
         }
         return "login";
@@ -68,6 +79,12 @@ public class UserController {
         }
     }
 
+    // 注销
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // 清除会话
+        return "redirect:/login"; // 重定向到登录页面
+    }
 
 }
 

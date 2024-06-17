@@ -33,7 +33,7 @@ public class StudentService {
         return studentRepository.findChosenCourseResource(studentId);
     }    
 
-    public boolean chooseCourseResource(long resourceId, long studentId) {
+    public boolean chooseCourseResource(long studentId,long resourceId ) {
         try {
             Student student = studentRepository.findById(studentId).orElse(null);
             CourseResource resource = courseResourceRepository.findById(resourceId).orElse(null);

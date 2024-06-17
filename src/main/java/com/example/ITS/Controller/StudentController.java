@@ -6,20 +6,21 @@ import com.example.ITS.Entity.Student;
 import com.example.ITS.Entity.Teacher;
 import com.example.ITS.Service.StudentService;
 import com.example.ITS.Service.TeacherService;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Controller
 public class StudentController {
@@ -28,37 +29,20 @@ public class StudentController {
     @Autowired
     TeacherService teacherService;
 
-    private static final Logger LOGGER = Logger.getLogger(StudentController.class.getName());
-
-    @GetMapping("/studentinfo")
-    public String showStudentInfo(Model model, Principal principal) {
-        if (principal != null) {
-            // 获取当前登录的学生信息
-            Student currentStudent = studentService.findStudentById(Long.parseLong(principal.getName()));
-            model.addAttribute("student", currentStudent);
-        } else {
-            // 处理未登录的情况，可能是重定向到登录页面
-            LOGGER.warning("未登录的用户尝试访问学生信息页面");
-            return "redirect:/login";
-        }
-        return "studentinfo";  // 返回视图名称
-    }
-
-
     // 修改个人信息
-    @GetMapping("/update_stu_page")
-    public String update_self_page(HttpSession session, Model model){
-        Long id = Long.parseLong(((User)session.getAttribute("user")).getUsername());
+    @GetMapping("/student/update/{id}")
+    public String update_self_page(@PathVariable Long id, Model model){
         Student student = studentService.findStudentById(id);
         model.addAttribute("student",student);
-        return "student/updateStuInfoPage";
+        return "updatestudentinfo";
     }
 
-    @PostMapping("/student/update_selfInfo")
+
+    @PostMapping("/updatestudentinfo")
     public String updateSelfInfo(@ModelAttribute Student student, RedirectAttributes ra){
         studentService.updateSelfInfo(student);
         ra.addFlashAttribute("message","修改成功");
-        return "redirect:/update_stu_page";
+        return "redirect:/studentinfo";
     }
 
     //浏览选课学生信息
@@ -96,17 +80,18 @@ public class StudentController {
     }
 
     // 选择课程资源
-    @GetMapping("/choose_course_resource")
+    @PostMapping("/choose_course_resource")
     public String choose_course_resource(Model model, HttpSession session,
                                          @RequestParam("resourceId") long resourceId,
                                          RedirectAttributes ra){
-        Long studentId = Long.parseLong(((User)session.getAttribute("user")).getUsername());
-        boolean isSuccess = studentService.chooseCourseResource(resourceId, studentId);
+        User currentUser = (User) session.getAttribute("user");
+        Long studentId = currentUser.getStudent().getId();                                            
+        boolean isSuccess = studentService.chooseCourseResource(studentId,resourceId);
         if (isSuccess){
             ra.addAttribute("message","选课资源成功！");
         }else {
             ra.addAttribute("message","选课资源失败！");
         }
-        return "redirect:/all_chosen_course_info_page";
+        return "redirect:/courseResource/search";
     }
 }
