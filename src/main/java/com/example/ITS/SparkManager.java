@@ -1,10 +1,10 @@
 package com.example.ITS;
 
-import io.github.briqt.spark4j.SparkClient;
-import io.github.briqt.spark4j.constant.SparkApiVersion;
-import io.github.briqt.spark4j.model.SparkMessage;
-import io.github.briqt.spark4j.model.SparkSyncChatResponse;
-import io.github.briqt.spark4j.model.request.SparkRequest;
+import com.example.ITS.SparkClient;
+import com.example.ITS.constant.SparkApiVersion;
+import com.example.ITS.Entity.SparkMessage;
+import com.example.ITS.Entity.SparkSyncChatResponse;
+import com.example.ITS.Entity.request.SparkRequest;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

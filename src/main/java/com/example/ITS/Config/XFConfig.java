@@ -1,6 +1,6 @@
 package com.example.ITS.Config;
 
-import io.github.briqt.spark4j.SparkClient;
+import com.example.ITS.SparkClient;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
