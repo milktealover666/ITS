@@ -1,6 +1,7 @@
 package com.example.ITS.Repository;
 
 import com.example.ITS.Entity.CourseResource;
+import com.example.ITS.Entity.Teacher;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface CourseResourceRepository extends JpaRepository<CourseResource, Long> {
     List<CourseResource> findByCourseId(Long courseId);
+    List<CourseResource> findByTeacher(Teacher teacher);
 
     @Query("SELECT cr FROM CourseResource cr WHERE cr.resourceName LIKE %:keyword% OR cr.teacher.name LIKE %:keyword%")
     List<CourseResource> findByKeyword(@Param("keyword") String keyword);

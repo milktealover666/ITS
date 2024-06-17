@@ -7,7 +7,7 @@ import com.example.ITS.Repository.StudentRepository;
 import com.example.ITS.Repository.TeacherRepository;
 import com.example.ITS.Repository.UserRepository;
 
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +57,18 @@ public class UserService {
     public User login(User user) {
         User foundUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
         return foundUser;
+    }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
     
 }

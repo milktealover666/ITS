@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>课程资源</title>
+</head>
+<body>
+    <h2>所有课程资源</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>课程</th>
+            <th>教师</th>
+            <th>资源名称</th>
+            <th>资源链接</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="resource : ${resources}">
+            <td th:text="${resource.id}"></td>
+            <td th:text="${resource.course.title}"></td>
+            <td th:text="${resource.teacher.name}"></td>
+            <td th:text="${resource.resourceName}"></td>
+            <td><a th:href="${resource.resourceUrl}" th:text="${resource.resourceUrl}"></a></td>
+            <td>
+                <form th:action="@{/studentinfo}" method="post">
+                    <input type="hidden" th:value="${resource.id}" name="resourceId">
+                    <input type="submit" value="选择">
+                </form>
+            </td>
+        </tr>
+    </table>
+    <h2>查询课程资源</h2>
+    <form action="/courseResource/search" method="get">
+        <label for="keyword">你想查找的资源信息:</label><br>
+        <input type="text" id="keyword" name="keyword"><br>
+        <input type="submit" value="查询">
+    </form>
+</body>
+</html>

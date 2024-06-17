@@ -1,10 +1,14 @@
 package com.example.ITS.Controller;
 
+import com.example.ITS.Entity.Course;
 import com.example.ITS.Entity.CourseResource;
 import com.example.ITS.Entity.Student;
 import com.example.ITS.Entity.Teacher;
 import com.example.ITS.Entity.User;
+import com.example.ITS.Service.CourseResourceService;
+import com.example.ITS.Service.CourseService;
 import com.example.ITS.Service.TeacherService;
+import com.example.ITS.Service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -13,10 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +30,56 @@ import java.util.Map;
 public class TeacherController {
     @Autowired
     TeacherService teacherService;
+    @Autowired
+    CourseService courseService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    CourseResourceService courseResourceService;
 
+    @GetMapping("/teacherinfo")
+    public String teacherInfo(Model model, HttpSession session) {
+        // 从session中获取当前登录的用户
+        User user = (User) session.getAttribute("user");
+
+        // 检查用户是否是教师
+        if (user != null && user.getType().equals("teacher")) {
+            Teacher teacher = user.getTeacher();
+
+            // 获取教师的课程资源
+            // 这里假设你有一个CourseResourceService来获取数据
+            List<CourseResource> courseResources = courseResourceService.getCourseResourcesByTeacherid(teacher);
+
+            // 将数据添加到模型中
+            model.addAttribute("user", user);
+            model.addAttribute("courseResources", courseResources);
+        }
+
+        // 返回teacherinfo视图
+        return "teacherinfo";
+    }
+
+
+    // 教师课程资源界面
+    @GetMapping("/teacher/courseResource/{id}")
+    public String viewCourseResource(@PathVariable Long id, Model model) {
+        List<CourseResource> resources = courseResourceService.getCourseResourcesByCourseId(id);
+        model.addAttribute("resources", resources);
+        model.addAttribute("resource", new CourseResource());
+        List<Course> courses = courseService.findAllCourses();
+        model.addAttribute("courses", courses);
+        return "teacherCourseResource";
+    }
+
+    @PostMapping("/teacher/courseResource/add")
+    public String addCourseResource(@RequestParam("courseId") Long courseId, @ModelAttribute("courseResource") CourseResource courseResource, HttpSession session) {
+        Course course = courseService.getCourseById(courseId);
+        courseResource.setCourse(course);
+        String resourceName = courseResource.getResourceName();
+        String resourceUrl = courseResource.getResourceUrl();
+        courseResourceService.addCourseResource(courseId, resourceName, resourceUrl, session);
+        return "redirect:/teacherinfo";
+    }
 
     // 添加课程资源信息
     @GetMapping("/add_course_resource_page")
@@ -53,6 +108,21 @@ public class TeacherController {
         teacherService.updateSelfInfo(teacher);
         ra.addFlashAttribute("message","修改成功");
         return "redirect:/update_self_page";
+    }
+
+    //教师课程页面
+    @GetMapping("/teacher/courses")
+    public String viewCourses(Model model) {
+        model.addAttribute("course", new Course());
+
+        // 获取所有课程
+        Iterable<Course> iterableCourses = courseService.findAllCourses();
+        List<Course> courses = new ArrayList<>();
+        iterableCourses.forEach(courses::add);
+
+        // 将所有课程添加到模型中
+        model.addAttribute("courses", courses);
+        return "teacherCourses";
     }
 
 

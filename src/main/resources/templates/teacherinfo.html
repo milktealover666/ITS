@@ -11,7 +11,7 @@
     <p>类型: <span th:text="${user.type}"></span></p>
 </div>
 <div th:object="${user.teacher}">
-    <p>姓名: <span th:text="*{name}"></span></p>
+    <!-- <p>姓名: <span th:text="*{name}"></span></p> -->
     <!-- <p>学院: <span th:text="*{academy}"></span></p>
     <p>职称: <span th:text="*{title}"></span></p> -->
 </div>
@@ -28,7 +28,7 @@
         <td><a th:href="${resource.resourceUrl}" th:text="${resource.resourceUrl}"></a></td>
     </tr>
 </table>
-<a th:href="@{/courses}">查看课程</a>
+<a th:href="@{/teacher/courses}">查看课程</a>
 <a th:href="@{/logout}">注销</a>
 </body>
 </html>

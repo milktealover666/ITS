@@ -47,6 +47,8 @@ public class UserController {
                 List<CourseResource> courseResources = foundUser.getTeacher().getCourseResources();
                 model.addAttribute("courseResources", courseResources);
                 return "teacherinfo";
+            }else if ("admin".equals(foundUser.getType())) {
+                return "adminview";
             }
         }
         return "login";

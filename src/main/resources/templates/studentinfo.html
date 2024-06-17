@@ -11,7 +11,7 @@
     <p>类型: <span th:text="${user.type}">你不能上传课程资源哦</span></p>
 </div>
 <div th:object="${user.student}">
-    <p>姓名: <span th:text="*{name}"></span></p>
+    <!-- <p>姓名: <span th:text="*{name}"></span></p> -->
     <!-- <p>专业: <span th:text="*{major}"></span></p> -->
 </div>
 <h2>我的课程资源</h2>
@@ -27,7 +27,7 @@
         <td th:text="${resource.resourceUrl}"></td>
     </tr>
 </table>
-<a th:href="@{/courses}">查看课程</a>
+<a th:href="@{/student/courses}">查看课程</a>
 <a th:href="@{/logout}">注销</a>
 </body>
 </html>

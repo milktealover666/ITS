@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin View</title>
+</head>
+<body>
+    <h1>欢迎来到控制台</h1>
+    <p>请选择你想要查看的视图:</p>
+    <ul>
+        <li><a th:href="@{/courses}">课程</a></li>
+        <li><a th:href="@{/courseCategory}">课程分类</a></li>
+        <li><a th:href="@{/courseResource/search?keyword=}">课程资源</a></li>
+        <li><a th:href="@{/users}">所有用户</a></li>
+    </ul>
+</body>
+</html>

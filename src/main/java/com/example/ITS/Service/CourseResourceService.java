@@ -26,6 +26,10 @@ public class CourseResourceService {
         return courseResourceRepository.findAll();
     }
 
+    public CourseResource getResourceById(Long resourceId) {
+        return courseResourceRepository.findById(resourceId).orElse(null);
+    }
+
     public List<CourseResource> getCourseResourcesByCourseId(Long courseId) {
         return courseResourceRepository.findByCourseId(courseId);
     }
@@ -58,6 +62,10 @@ public class CourseResourceService {
 
     public List<CourseResource> searchCourseResources(String keyword) {
         return courseResourceRepository.findByKeyword(keyword);
+    }
+
+    public List<CourseResource> getCourseResourcesByTeacherid(Teacher teacher) {
+        return courseResourceRepository.findByTeacher(teacher);
     }
     
 }
