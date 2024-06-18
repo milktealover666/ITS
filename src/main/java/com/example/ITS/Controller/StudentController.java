@@ -2,7 +2,6 @@ package com.example.ITS.Controller;
 
 import com.example.ITS.Entity.User;
 import com.example.ITS.Entity.Course;
-import com.example.ITS.Entity.CourseCategory;
 import com.example.ITS.Entity.CourseResource;
 import com.example.ITS.Entity.Student;
 import com.example.ITS.Entity.Teacher;
