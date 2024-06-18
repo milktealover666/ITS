@@ -1,5 +1,6 @@
 package com.example.ITS.Controller;
 
+import com.example.ITS.Entity.SparkMessage;
 import com.example.ITS.SparkManager;
 import com.example.ITS.Service.StudentService;
 
@@ -22,6 +23,8 @@ public class QAController {
     @Autowired
     StudentService studentService;
 
+
+    private List<SparkMessage> history = new ArrayList<>();
     private List<String> conversation = new ArrayList<>();
 
     @GetMapping("/QA")
@@ -32,7 +35,9 @@ public class QAController {
     @PostMapping("/getAnswer")
     public ResponseEntity<Map<String, List<String>>> getAnswer(@RequestBody Map<String, String> payload) {
         String question = payload.get("question");
-        String answer = sparkManager.QA(question);
+        String answer = sparkManager.QA(history,question);
+        history.add(SparkMessage.userContent(question));
+        history.add(SparkMessage.assistantContent(answer));
         conversation.add("Me: " + question);
         conversation.add("SparkChat: " + answer);
         Map<String, List<String>> response = new HashMap<>();

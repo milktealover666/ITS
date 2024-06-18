@@ -18,10 +18,11 @@ public class SparkManager {
     @Resource
     private SparkClient sparkClient;
 
-    public String QA(final String question){
+    public String QA(final List<SparkMessage> history, final String question){
         String precondition = "我是一名学生，请你回答我的问题：";
         List<SparkMessage> messages = new ArrayList<>();
         messages.add(SparkMessage.systemContent(precondition));
+        messages.addAll(history);
         messages.add(SparkMessage.userContent(question));
         SparkRequest sparkRequest = SparkRequest.builder()
                 .messages(messages)
