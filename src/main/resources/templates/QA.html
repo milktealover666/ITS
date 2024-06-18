@@ -14,26 +14,42 @@
         #conversation {
             height: 500px;
             border: 1px solid #ccc;
+            overflow: auto;
+            border-radius: 15px;
+            background-color: #f3f3f3f3;
         }
         .question {
-            position: absolute;
+            display: flex;
+            width: 400px;
+            height: 30px;
+            margin: 0 auto;
+            display: flex;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%)
+        }
+        #question {
+            border: 1px black 100; 
+            border-radius: 15px; 
+            height: 30px;
+            line-height: 20;
+        }
+        #qa-form input[type="submit"] {
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            padding: 10px 24px; 
+            cursor: pointer; 
         }
     </style>
 </head>
 <body>
-    <div class="all">
-        <div id="conversation"></div>
-        <div class="question">
-            <form id="qa-form">
-                <input type="text" id="question" placeholder="请输入你的问题">
-                <button type="submit">提交</button>
-            </form>
-        </div>
+    <div id="conversation"></div>
+    <div class="question">
+        <form id="qa-form">
+            <input type="text" id="question" placeholder="请输入你的问题">
+            <input type="submit" >
+        </form>
     </div>
-
     <script>
         document.getElementById('qa-form').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -51,9 +67,10 @@
             conversationDiv.innerHTML = '';
             data.conversation.forEach(function(line) {
                 var p = document.createElement('p');
-                p.textContent = line;
+                p.innerHTML = line;
                 conversationDiv.appendChild(p);
             });
+            document.getElementById('question').value = '';
         });
     });
     </script>
