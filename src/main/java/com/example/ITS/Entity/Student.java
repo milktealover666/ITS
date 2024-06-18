@@ -33,4 +33,5 @@ public class Student {
         inverseJoinColumns = @JoinColumn(name = "course_resource_id")
     )
     private List<CourseResource> courseResources;
+
 }

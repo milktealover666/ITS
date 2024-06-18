@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>问答系统</title>
+    <style>
+        #qa-form {
+            margin-bottom: 1em;
+        }
+        .all {
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+        #answer {
+            height: 500px;
+            border: 1px solid #ccc;
+        }
+        .question {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%)
+        }
+    </style>
+</head>
+<body>
+    <div class="all">
+        <div id="answer"></div>
+        <div class="question">
+            <form id="qa-form">
+                <input type="text" id="question" placeholder="请输入你的问题">
+                <button type="submit">提交</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('qa-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var question = document.getElementById('question').value;
+            fetch('/getAnswer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ question: question }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('answer').textContent = data.answer;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -15,6 +15,7 @@
     <!-- <p>专业: <span th:text="*{major}"></span></p> -->
 </div>
 <h2>我的课程资源</h2>
+<p>我的学习进度: <span th:text="${percentage}"></span>%</p>
 <table>
     <tr>
         <th>课程</th>
@@ -28,6 +29,7 @@
     </tr>
 </table>
 <a th:href="@{/student/courses}">查看课程</a>
+<a th:href="@{/QA}">AI问答界面</a>
 <a th:href="@{/logout}">注销</a>
 </body>
 </html>

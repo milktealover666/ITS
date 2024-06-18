@@ -2,6 +2,7 @@ package com.example.ITS.Controller;
 
 import com.example.ITS.Entity.CourseResource;
 import com.example.ITS.Entity.User;
+import com.example.ITS.Service.StudentService;
 import com.example.ITS.Service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -21,6 +22,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    StudentService studentService;
 
     // 跳动登录页
     @GetMapping(value = {"/","/login"})
@@ -41,6 +44,8 @@ public class UserController {
             // 根据用户类型跳转到对应的页面
             if ("student".equals(foundUser.getType())) {
                 List<CourseResource> courseResources = foundUser.getStudent().getCourseResources();
+                double percentage = studentService.calculateResourcePercentage();
+                model.addAttribute("percentage", percentage);
                 model.addAttribute("courseResources", courseResources);
                 return "studentinfo";
             } else if ("teacher".equals(foundUser.getType())) {
