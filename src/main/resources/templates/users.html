@@ -15,6 +15,10 @@
             <td th:text="${user.username}"></td>
             <td th:text="${user.password}"></td>
             <td th:text="${user.type}"></td>
+            <td>
+                <a th:href="@{/user/delete/{id}(id=${user.id})}" onclick="return confirm('确定要删除这个用户吗？')">删除用户</a>
+                <a th:href="@{/user/resetPassword/{id}(id=${user.id})}" onclick="return confirm('确定要重置这个用户的密码吗？')">重置密码</a>
+            </td>
         </tr>
     </table>
 </body>

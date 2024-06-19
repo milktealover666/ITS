@@ -67,8 +67,19 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
     
+    public void resetPassword(Long id, String newPassword) {
+        User user = getUserById(id);
+        if (user != null) {
+            user.setPassword(newPassword);
+            userRepository.save(user);
+        }
+    }
 }
