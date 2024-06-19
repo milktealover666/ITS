@@ -2,10 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>智能学习建议</title>
+    <style>
+        #main {
+            overflow: auto;
+            height: 500px;
+            border: 1px solid #000;
+            background-color: #f3f3f3ff;
+            border-radius: 15px;
+        }
+    </style>
 </head>
 <body>
 <h2>智能学习建议：</h2>
-<div>
+<div id="main">
     <p><span th:utext="${recommendation}"></span></p>
 </div>
 <a th:href="@{/studentinfo}">回到个人页面</a>
