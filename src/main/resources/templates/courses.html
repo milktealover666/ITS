@@ -16,7 +16,7 @@
         </tr>
         <tr th:each="course : ${courses}">
             <td th:text="${course.id}"></td>
-            <td th:text="${course.title}"></td>
+            <td><a th:text="${course.title}" th:href="@{/courseResource/{id}(id=${course.id})}"></a></td>
             <td th:text="${course.category.name}"></td>
             <td>
                 <a th:href="@{/courses/update/{id}(id=${course.id})}" >修改信息</a>

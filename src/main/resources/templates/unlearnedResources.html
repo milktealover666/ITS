@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>未学习的课程资源</title>
+</head>
+<body>
+<h2>未学习的课程资源</h2>
+<table>
+    <tr>
+        <th>课程</th>
+        <th>资源名称</th>
+        <th>资源链接</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="resource : ${unlearnedResources}">
+        <td th:text="${resource.course.title}"></td>
+        <td th:text="${resource.resourceName}"></td>
+        <td><a th:href="${resource.resourceUrl}" th:text="${resource.resourceUrl}"></a></td>
+        <td>
+            <form th:action="@{/studentinfo}" method="post">
+                <input type="hidden" th:value="${resource.id}" name="resourceId">
+                <input type="submit" value="选择">
+            </form>
+        </td>
+    </tr>
+</table>
+<a th:href="@{/studentinfo}">返回个人信息</a>
+</body>
+</html>

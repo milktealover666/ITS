@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>课程资源</title>
+</head>
+<body>
+    <h2>所有课程资源</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>课程</th>
+            <th>教师</th>
+            <th>资源名称</th>
+            <th>资源链接</th>
+        </tr>
+        <tr th:each="resource : ${resources}">
+            <td th:text="${resource.id}"></td>
+            <td th:text="${resource.course.title}"></td>
+            <td th:text="${resource.teacher.name}"></td>
+            <td th:text="${resource.resourceName}"></td>
+            <td><a th:href="${resource.resourceUrl}" th:text="${resource.resourceUrl}"></a></td>
+        </tr>
+    </table>
+    <h2>查询课程资源</h2>
+    <form action="/courseResource/search" method="get">
+        <label for="keyword">你想查找的资源信息:</label><br>
+        <input type="text" id="keyword" name="keyword"><br>
+        <input type="submit" value="查询">
+    </form>
+    <h2>添加课程资源</h2>
+    <form action="/teacher/courseResource/add" method="post">
+        <label for="resourceName">资源名称:</label><br>
+        <input type="text" id="resourceName" name="resourceName" required><br>
+        <label for="resourceUrl">资源链接:</label><br>
+        <input type="text" id="resourceUrl" name="resourceUrl" required><br>
+        <label for="course">课程:</label><br>
+        <select id="course" name="courseId" required>
+            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.title}"></option>
+        </select><br>
+        <input type="submit" value="添加">
+    </form>
+</body>
+</html>

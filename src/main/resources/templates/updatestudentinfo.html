@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>更新学生信息</title>
+</head>
+<body>
+<h2>更新我的信息</h2>
+<form action="#" th:action="@{/student/update}" th:object="${student}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <p>姓名: <input type="text" th:field="*{name}" /></p>
+    <p>专业: <input type="text" th:field="*{major}" /></p>
+    <p><input type="submit" value="提交" /></p>
+</form>
+<a th:href="@{/studentinfo}">返回个人信息</a>
+</body>
+</html>

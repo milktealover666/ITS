@@ -1,9 +1,8 @@
 package com.example.ITS.Repository;
 
 import com.example.ITS.Entity.User;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsernameAndPassword(String username, String password);
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Info</title>
+</head>
+<body>
+<h2>我的信息</h2>
+<div th:object="${user}">
+    <p>用户名: <span th:text="${user.username}"></span></p>
+    <p>密码: <span th:text="${user.password}"></span></p>
+    <p>类型: <span th:text="${user.type}"></span></p>
+</div>
+<!-- <div th:object="${user.student}">
+    <p>姓名: <span th:text="*{name}"></span></p>
+    <p>专业: <span th:text="*{major}"></span></p>
+</div>
+<a th:href="@{/student/update}">修改个人信息</a> -->
+<h2>我的课程资源</h2>
+<a th:href="@{/student/unlearnedResources}">
+    <p>我的学习进度: <span th:text="${percentage}"></span>%</p>
+</a>
+<table>
+    <tr>
+        <th>课程</th>
+        <th>资源名称</th>
+        <th>资源链接</th>
+    </tr>
+    <tr th:each="resource : ${courseResources}">
+        <td th:text="${resource.course.title}"></td>
+        <td th:text="${resource.resourceName}"></td>
+        <td th:text="${resource.resourceUrl}"></td>
+    </tr>
+</table>
+<a th:href="@{/student/courses}">查看课程</a>
+<a th:href="@{/recommendCourses}">智能学习建议</a>
+<a th:href="@{/QA}">AI问答界面</a>
+<a th:href="@{/logout}">注销</a>
+</body>
+</html>

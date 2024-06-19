@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>问答系统</title>
+    <style>
+        #qa-form {
+            margin-bottom: 1em;
+        }
+        .all {
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+        #conversation {
+            height: 500px;
+            border: 1px solid #ccc;
+            overflow: auto;
+            border-radius: 15px;
+            background-color: #f3f3f3f3;
+        }
+        .question {
+            display: flex;
+            width: 400px;
+            height: 30px;
+            margin: 0 auto;
+            display: flex;
+            bottom: 0;
+        }
+        #question {
+            border: 1px black 100; 
+            border-radius: 15px; 
+            height: 30px;
+            line-height: 20;
+        }
+        #qa-form input[type="submit"] {
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            padding: 10px 24px; 
+            cursor: pointer; 
+        }
+    </style>
+</head>
+<body>
+    <div id="conversation"></div>
+    <div class="question">
+        <form id="qa-form">
+            <input type="text" id="question" placeholder="请输入你的问题">
+            <input type="submit" >
+        </form>
+    </div>
+    <script>
+        document.getElementById('qa-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var question = document.getElementById('question').value;
+        fetch('/getAnswer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ question: question }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            var conversationDiv = document.getElementById('conversation');
+            conversationDiv.innerHTML = '';
+            data.conversation.forEach(function(line) {
+                var p = document.createElement('p');
+                p.innerHTML = line;
+                conversationDiv.appendChild(p);
+            });
+            document.getElementById('question').value = '';
+        });
+    });
+    </script>
+</body>
+</html>
