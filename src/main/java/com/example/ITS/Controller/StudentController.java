@@ -74,7 +74,8 @@ public class StudentController {
             userService.updateUser(user);
             // 将更新后的用户和课程资源列表添加到模型中
             double percentage = studentService.calculateResourcePercentage();
-            model.addAttribute("percentage", percentage);
+            String formattedPercentage = String.format("%.1f", percentage);
+            model.addAttribute("percentage", formattedPercentage);
             model.addAttribute("user", user);
             model.addAttribute("courseResources", user.getStudent().getCourseResources());
         }

@@ -45,7 +45,8 @@ public class UserController {
             if ("student".equals(foundUser.getType())) {
                 List<CourseResource> courseResources = foundUser.getStudent().getCourseResources();
                 double percentage = studentService.calculateResourcePercentage();
-                model.addAttribute("percentage", percentage);
+                String formattedPercentage = String.format("%.1f", percentage);
+                model.addAttribute("percentage", formattedPercentage);
                 model.addAttribute("courseResources", courseResources);
                 return "studentinfo";
             } else if ("teacher".equals(foundUser.getType())) {
